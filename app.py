@@ -4,11 +4,8 @@ import streamlit as st
 from PIL import Image
 from datetime import datetime
 import time
-import requests
 import os
 import pickle
-
-from keras.models import model_from_json
 
 
 image = Image.open('IMG-20171231-WA0001.jpg')
