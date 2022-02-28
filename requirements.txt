@@ -1,5 +1,7 @@
 streamlit
 sklearn
 feature_engine
-xgboost
 category_encoders
+keras
+tensorflow
+seaborn
