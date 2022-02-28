@@ -41,7 +41,12 @@ def vai_corre():
           'vol_semanal_ant2': [volume_semanal_ant2]
           }
 
-  treino = model.predict(pd.DataFrame(data))
+  if st.button('Melhor treino'):
+     treino = model.predict(pd.DataFrame(data))
+  else:
+     treino = ''
+
+  
 
 
   st.markdown("--------------------")
