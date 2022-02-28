@@ -1,7 +1,4 @@
 streamlit
 sklearn
-feature_engine
-category_encoders
 keras
 tensorflow
-seaborn
