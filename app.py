@@ -17,9 +17,11 @@ import seaborn as sns
 
 #st.image(image, caption='')
 
-st.markdown("# Vai Corrê!")
+st.markdown('# Vai Corrê!')
 
-st.markdown("## PRÓXIMO TREINO")
+st.markdown("--------------------")
+
+st.title("PRÓXIMO TREINO")
 
 
 def vai_corre():
@@ -86,15 +88,18 @@ def vai_corre():
   #else:
   #treino = ''
 
-  st.markdown("--------------------")
+  
 
   #st.markdown("Vai corrê:")
-  st.write(treino[0])
-  st.markdown("km")
-  st.markdown("DISTÂNCIA")
+  #st.write(treino[0])
+  st.markdown(f'# {treino[0]} km')
+  #st.markdown("km")
+  #st.markdown("DISTÂNCIA")
+
+  st.markdown("--------------------")
 
   st.markdown(datetime.now())
-  st.markdown("DATA")
+  #st.markdown("DATA")
 
   st.markdown("--------------------")
   st.markdown("CADASTRAR CORRIDA")
@@ -141,10 +146,6 @@ def vai_corre():
 
   fig = plt.figure(figsize=(10, 4))
   sns.lineplot(x = "date", y = "vol_semanal_ant", data = df_bar)
-  st.pyplot(fig)
-
-  fig = plt.figure(figsize=(10, 4))
-  sns.lineplot(x = "date", y = "pace", data = df_bar)
   st.pyplot(fig)
 
 
