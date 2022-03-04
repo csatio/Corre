@@ -155,9 +155,9 @@ def vai_corre():
   sns.lineplot(x = "date", y = "vol_semanal_ant", data = df_bar)
   st.pyplot(fig)
 
-  st.dataframe(df_bar.tail(30)) 
+  st.write(df_bar.tail(30)) 
 
-  
+
 if __name__ == '__main__':
     vai_corre()
     
