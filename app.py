@@ -133,15 +133,15 @@ def vai_corre():
     conn.close()
     st.markdown(msg)
 
-  df_bar = df[['date','distancia','vol_semanal_ant','pace']].sort_values(by="date")
+  df_bar = df[['date','distancia','vol_semanal_ant','pace','week_number']].sort_values(by="date")
 
   st.markdown("--------------------")
   st.markdown(f'VOLUME SEMANAL: {volume_semanal_ant[0]}')
 
   fig = plt.figure(figsize=(10, 4))
-  sns.barplot(x = "date", y = "vol_semanal_ant", data = df_bar.tail(20))
+  sns.barplot(x = "date", y = "week_number", data = df_bar.tail(40).groupby(df['week_number']).transform('mean'))
   st.pyplot(fig)
-
+  plt.xticks(rotation=70)
   st.markdown("--------------------")
 
   
