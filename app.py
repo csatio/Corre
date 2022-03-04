@@ -107,29 +107,24 @@ def vai_corre():
 
   tempo = st.text_input("Tempo (HH:MM:SS):", "")
 
-  conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+  if st.button('Cadastrar'):
+    msg =''
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    cur = conn.cursor()
+    cur.execute("SELECT date FROM corridas WHERE date = %s", (data_t,))
+    tem = cur.fetchone() is not None
 
-  data_t = '2022-02-06'
-  distancia = 8
-  tempo = "00:30:00"
+    if tem == False:
+      cur.execute("INSERT INTO corridas(date, distancia, duration) VALUES (%s, %s, %s)", (data_t,distancia,tempo))
+      msg = f'Data: {data_t}, Distância: {distancia}, Tempo: {tempo} registrado com sucesso.'
+    else:
+      cur.execute("UPDATE corridas set date= %s, distancia=%s, duration=%s where date=%s", (data_t,distancia,tempo,data_t))
+      msg = f'Data: {data_t}, Distância: {distancia}, Tempo: {tempo} atualizado com sucesso.'
 
-  cur = conn.cursor()
-  cur.execute("SELECT date FROM corridas WHERE date = %s", (data_t,))
-  tem = cur.fetchone() is not None
-
-  if tem == False:
-    cur.execute("INSERT INTO corridas(date, distancia, duration) VALUES (%s, %s, %s)", (data_t,distancia,tempo))
-    msg = f'Data: {data_t}, Distância: {distancia}, Tempo: {tempo} registrado com sucesso.'
-  else:
-    cur.execute("UPDATE corridas set date= %s, distancia=%s, duration=%s where date=%s", (data_t,distancia,tempo,data_t))
-    msg = f'Data: {data_t}, Distância: {distancia}, Tempo: {tempo} atualizado com sucesso.'
-
-  conn.commit()
-  cur.close()
-
-  conn.close()
-
-  st.markdown(msg)
+    conn.commit()
+    cur.close()
+    conn.close()
+    st.markdown(msg)
 
 
 
