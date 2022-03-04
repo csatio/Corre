@@ -9,6 +9,8 @@ import pickle
 import psycopg2
 import psycopg2.extras
 import pandas.io.sql as psql
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 #image = Image.open('IMG-20171231-WA0001.jpg')
@@ -128,13 +130,11 @@ def vai_corre():
 
   st.markdown("--------------------")
   st.markdown("VOLUME SEMANAL")
-  st.markdown(volume_semanal_ant)
+  st.markdown(volume_semanal_ant[0])
 
-  df_bar = df[['date','distancia']].sort_values(by="date")
-
-  st.bar_chart(df_bar)
-
-
+  fig = plt.figure(figsize=(10, 4))
+  sns.lineplot(x = "date", y = "distancia", data = df_bar)
+  st.pyplot(fig)
 
 
 
