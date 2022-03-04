@@ -132,6 +132,8 @@ def vai_corre():
   st.markdown("VOLUME SEMANAL")
   st.markdown(volume_semanal_ant[0])
 
+  df_bar = df[['date','distancia']].sort_values(by="date")
+
   fig = plt.figure(figsize=(10, 4))
   sns.lineplot(x = "date", y = "distancia", data = df_bar)
   st.pyplot(fig)
