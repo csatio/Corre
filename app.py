@@ -39,6 +39,7 @@ def vai_corre():
   #product_category = psql.read_sql_query('select * from product_category', connection)
   conn.close()
 
+  df['pace'] = df['duration'] / df ['distancia']
   df['week_number'] = df['date'].dt.year.astype(str) + '-' + (df['date'].dt.week + 100).astype(str).str[1:3]
   df['dia_semana'] = (df['date'].dt.weekday + 100).astype(str).str[1:3]
   df['vol_semanal'] = df['distancia'].groupby(df['week_number']).transform('sum')
@@ -132,10 +133,18 @@ def vai_corre():
   st.markdown("VOLUME SEMANAL")
   st.markdown(volume_semanal_ant[0])
 
-  df_bar = df[['date','distancia']].sort_values(by="date")
+  df_bar = df[['date','distancia','vol_semanal_ant','pace']].sort_values(by="date")
 
   fig = plt.figure(figsize=(10, 4))
   sns.lineplot(x = "date", y = "distancia", data = df_bar)
+  st.pyplot(fig)
+
+  fig = plt.figure(figsize=(10, 4))
+  sns.lineplot(x = "date", y = "vol_semanal_ant", data = df_bar)
+  st.pyplot(fig)
+
+  fig = plt.figure(figsize=(10, 4))
+  sns.lineplot(x = "date", y = "pace", data = df_bar)
   st.pyplot(fig)
 
 
