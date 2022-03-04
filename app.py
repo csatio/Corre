@@ -6,13 +6,17 @@ from datetime import datetime
 import time
 import os
 import pickle
+import psycopg2
+import pandas.io.sql as psql
 
 
-image = Image.open('IMG-20171231-WA0001.jpg')
+#image = Image.open('IMG-20171231-WA0001.jpg')
 
-st.image(image, caption='')
+#st.image(image, caption='')
 
-st.markdown("# Vai Corrê!!!")
+st.markdown("# Vai Corrê!")
+
+st.markdown("## PRÓXIMO TREINO")
 
 
 def vai_corre():
@@ -24,38 +28,69 @@ def vai_corre():
   # load weights into new model
   #loaded_model.load_weights("model/model.h5")
   #print("Loaded model from disk")
+
+  DATABASE_URL = os.environ['DATABASE_URL']
+
+  conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+  df = psql.read_sql('SELECT * FROM corridas', conn)
+  #product_category = psql.read_sql_query('select * from product_category', connection)
+  conn.close()
+
+  df['week_number'] = df['date'].dt.year.astype(str) + '-' + (df['date'].dt.week + 100).astype(str).str[1:3]
+  df['dia_semana'] = (df['date'].dt.weekday + 100).astype(str).str[1:3]
+  df['vol_semanal'] = df['distancia'].groupby(df['week_number']).transform('sum')
+  df['vol_semanal_ant'] = df.vol_semanal.shift(-1)
+  df['vol_semanal_ant2'] = df.vol_semanal.shift(-2)
+  fds = []
+  for row in df['dia_semana']:
+    if row=='06' or row=='05':
+        fds.append(1)
+    else:
+        fds.append(0)
+  df['fds'] = fds
+
+  ult = df.head(1)
   
-  model = pickle.load(open('model/best_model_rf.pkl', 'rb'))
+  hoje = datetime.today().strftime('%Y-%m-%d')
+
+  dia_semana = datetime.today().weekday()
+
+  if dia_semana == 5 or dia_semana == 6:
+        fds = 1
+  else:
+        fds = 0
+
+  volume_semanal_ant = ult['vol_semanal_ant']
+
+  volume_semanal_ant2 = ult['vol_semanal_ant2']
+
+  
+  DATABASE_URL = os.environ['DATABASE_URL']
+  
+  model = pickle.load(open('model/best_model_rf_pg.pkl', 'rb'))
 
   #model_predictor = model.load_model('model-2022-02-23.json')
 
 
-  dia_semana = st.text_input('0 = dia normal ...  1 = fim de semana', 1)
-
-  volume_semanal_ant = st.text_input('Volume semanal atual', '25')
-
-  volume_semanal_ant2 = st.text_input('Volume semana anterior', '20')
-
-  data = {'dia_semana': dia_semana,
+  data = {'fds': dia_semana,
           'vol_semanal_ant': [volume_semanal_ant],
           'vol_semanal_ant2': [volume_semanal_ant2]
           }
 
-  if st.button('Melhor treino'):
-     treino = model.predict(pd.DataFrame(data))
-  else:
-     treino = ''
-
-  
-
+  #if st.button('Melhor treino'):
+  treino = model.predict(pd.DataFrame(data))
+  #else:
+  #treino = ''
 
   st.markdown("--------------------")
 
-  st.markdown("Vai corrê:")
-  st.write(treino)
+  #st.markdown("Vai corrê:")
+  st.write(treino[0])
+  st.markdown("<p>km")
+  st.markdown("DISTÂNCIA</p>")
 
   st.markdown(datetime.now())
-
+  st.markdown("<p>DATA</p>")
 
 if __name__ == '__main__':
     vai_corre()

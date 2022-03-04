@@ -1,6 +1,6 @@
-# A próxima corrida
+# Vai Corrê!
 
-Sugestão para a próxima corrida, baseada no histórico de treinos e corridas.
+Incentivo para a corrida. Sugestão de treino baseada no histórico de treinos e corridas.
 
 ---
 
@@ -16,9 +16,10 @@ Sugestão para a próxima corrida, baseada no histórico de treinos e corridas.
 
 ---
 
-<p>data = {'dia_semana': '06',
-        'vol_semanal_ant': [30]
+<p>data = {'fds': 1,
+        'vol_semanal_ant': [30],
+        'vol_semanal_ant2': [25]
         }</p>
-<p>best_model_xgb.predict(pd.DataFrame(data))</p>
+<p>best_model_rf_pg.predict(pd.DataFrame(data))</p>
 
-<p>array([10.457467], dtype=float32)</p>
+<p>array([12.53650993])</p>
