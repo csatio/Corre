@@ -7,6 +7,7 @@ import time
 import os
 import pickle
 import psycopg2
+import psycopg2.extras
 import pandas.io.sql as psql
 
 
@@ -86,11 +87,51 @@ def vai_corre():
 
   #st.markdown("Vai corrê:")
   st.write(treino[0])
-  st.markdown("<p>km")
-  st.markdown("DISTÂNCIA</p>")
+  st.markdown("km")
+  st.markdown("DISTÂNCIA")
 
   st.markdown(datetime.now())
-  st.markdown("<p>DATA</p>")
+  st.markdown("DATA")
+
+  st.markdown("--------------------")
+  st.markdown("CADASTRAR CORRIDA")
+  st.markdown("Distância (km):")
+
+  distancia = st.text_input("", "")
+
+  st.markdown("Data (AAAA-MM-DD):")
+
+  data_t = st.text_input("", "")
+
+  st.markdown("Tempo (HH:MM:SS):")
+
+  tempo = st.text_input("", "")
+
+  conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+
+  data_t = '2022-02-06'
+  distancia = 8
+  tempo = "00:30:00"
+
+  cur = conn.cursor()
+  cur.execute("SELECT date FROM corridas WHERE date = %s", (data_t,))
+  tem = cur.fetchone() is not None
+
+  if tem == False:
+    cur.execute("INSERT INTO corridas(date, distancia, duration) VALUES (%s, %s, %s)", (data_t,distancia,tempo))
+    msg = f'Data: {data_t}, Distância: {distancia}, Tempo: {tempo} registrado com sucesso.'
+  else:
+    cur.execute("UPDATE corridas set date= %s, distancia=%s, duration=%s where date=%s", (data_t,distancia,tempo,data_t))
+    msg = f'Data: {data_t}, Distância: {distancia}, Tempo: {tempo} atualizado com sucesso.'
+
+  conn.commit()
+  cur.close()
+
+  conn.close()
+
+  st.markdown(msg)
+
+
 
 if __name__ == '__main__':
     vai_corre()
