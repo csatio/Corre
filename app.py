@@ -126,6 +126,14 @@ def vai_corre():
     conn.close()
     st.markdown(msg)
 
+    st.markdown(volume_semanal_ant)
+
+    df_bar = df[['date','distancia']].sort_values(by="date")
+
+    st.bar_chart(df_bar)
+
+
+
 
 
 if __name__ == '__main__':
