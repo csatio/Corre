@@ -95,17 +95,17 @@ def vai_corre():
 
   st.markdown("--------------------")
   st.markdown("CADASTRAR CORRIDA")
-  st.markdown("Distância (km):")
+  #st.markdown("Distância (km):")
 
-  distancia = st.text_input("", "")
+  distancia = st.text_input("Distância (km):", "")
 
-  st.markdown("Data (AAAA-MM-DD):")
+  #st.markdown("Data (AAAA-MM-DD):")
 
-  data_t = st.text_input("", "")
+  data_t = st.text_input("Data (AAAA-MM-DD):", "")
 
-  st.markdown("Tempo (HH:MM:SS):")
+  #st.markdown("Tempo (HH:MM:SS):")
 
-  tempo = st.text_input("", "")
+  tempo = st.text_input("Tempo (HH:MM:SS):", "")
 
   conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
