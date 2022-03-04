@@ -133,7 +133,7 @@ def vai_corre():
     conn.close()
     st.markdown(msg)
 
-  df_bar = df[['date','distancia','vol_semanal_ant','pace','week_number']].sort_values(by="date")
+  df_bar = df[['date','distancia','vol_semanal_ant','pace','week_number','duration']].sort_values(by="date")
 
   df_bar2 = df_bar[['week_number','vol_semanal_ant']].drop_duplicates()
 
@@ -155,7 +155,7 @@ def vai_corre():
   sns.lineplot(x = "date", y = "vol_semanal_ant", data = df_bar)
   st.pyplot(fig)
 
-  st.table(df_bar) 
+  st.table(df_bar[['date','distancia','duration','vol_semanal_ant']].tail(50)) 
 
 
 if __name__ == '__main__':
