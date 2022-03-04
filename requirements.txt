@@ -1,3 +1,4 @@
 streamlit
 sklearn
+psycopg2
 
