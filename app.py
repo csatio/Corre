@@ -17,7 +17,7 @@ import seaborn as sns
 
 #st.image(image, caption='')
 
-st.title('# Vai Corrê!')
+st.title('Vai Corrê!')
 
 st.markdown("--------------------")
 
@@ -133,6 +133,8 @@ def vai_corre():
     conn.close()
     st.markdown(msg)
 
+  df_bar = df[['date','distancia','vol_semanal_ant','pace']].sort_values(by="date")
+
   st.markdown("--------------------")
   st.markdown(f'VOLUME SEMANAL: {volume_semanal_ant[0]}')
 
@@ -142,8 +144,7 @@ def vai_corre():
 
   st.markdown("--------------------")
 
-  df_bar = df[['date','distancia','vol_semanal_ant','pace']].sort_values(by="date")
-
+  
   fig = plt.figure(figsize=(10, 4))
   sns.lineplot(x = "date", y = "distancia", data = df_bar)
   st.pyplot(fig)
