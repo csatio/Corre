@@ -17,11 +17,11 @@ import seaborn as sns
 
 #st.image(image, caption='')
 
-st.markdown('# Vai Corrê!')
+st.title('# Vai Corrê!')
 
 st.markdown("--------------------")
 
-st.title("PRÓXIMO TREINO")
+st.markdown("# PRÓXIMO TREINO")
 
 
 def vai_corre():
@@ -92,13 +92,12 @@ def vai_corre():
 
   #st.markdown("Vai corrê:")
   #st.write(treino[0])
-  st.markdown(f'# {treino[0]} km')
+  st.markdown(f'# {round(treino[0])} km')
   #st.markdown("km")
   #st.markdown("DISTÂNCIA")
 
-  st.markdown("--------------------")
 
-  st.markdown(datetime.now())
+  st.markdown(datetime.now().strftime("%d/%b"))
   #st.markdown("DATA")
 
   st.markdown("--------------------")
@@ -135,8 +134,13 @@ def vai_corre():
     st.markdown(msg)
 
   st.markdown("--------------------")
-  st.markdown("VOLUME SEMANAL")
-  st.markdown(volume_semanal_ant[0])
+  st.markdown(f'VOLUME SEMANAL: {volume_semanal_ant[0]}')
+
+  fig = plt.figure(figsize=(10, 4))
+  sns.barplot(x = "date", y = "vol_semanal_ant", data = df_bar.tail(20))
+  st.pyplot(fig)
+
+  st.markdown("--------------------")
 
   df_bar = df[['date','distancia','vol_semanal_ant','pace']].sort_values(by="date")
 
